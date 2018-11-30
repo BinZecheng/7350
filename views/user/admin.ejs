@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>用户名</th>
+        <th>权限</th>
+    </tr>
+    <% user.forEach( function(model) { %>
+    <tr>
+        <td>
+            <%= model.username %>
+        </td>
+        <td>
+            <%= model.role %>
+        </td>
+    </tr>
+    <% }); %>
+</table>
+
+<script>
+
+</script>
+
+</body>
+
+</html>

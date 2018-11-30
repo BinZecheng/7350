@@ -1,0 +1,30 @@
+<!-- 影片信息(用户的主页) -->
+<div class="row">
+        <% film.forEach( function(model) { %>
+        <div class="col-lg-6 col-md-12">
+            <div class="card" >
+                <div class="card-body" onclick="goView('<%= model.id%>')">
+                    <h5 class="card-title" style="color: #0069d9">
+                        <%= model.filmName %>
+                    </h5>
+                    <div class="row">
+                        <div class="col-4">
+                            <img class="card-img-top" src="<%= model.imgUrl %>" alt="Card image cap">
+                        </div>
+                        <div class="col-8">
+                            <p class="card-text">
+                                Director: <%= model.director %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    
+    <script>
+        function goView(id) {
+            window.location.href = '/filmBasic/view/' + id;
+        };
+    </script>

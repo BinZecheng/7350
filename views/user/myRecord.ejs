@@ -1,0 +1,83 @@
+<!-- 用户个人购买记录页面populate -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>订单号</th>
+        <th>电影名称</th>
+        <th>影院名称</th>
+        <th>影院地址</th>
+        <th>影厅号</th>
+        <th>座位号</th>
+        <th>放映日期</th>
+        <th>放映时间</th>
+        <th>所付金额($)</th>
+        <th>操作</th>
+    </tr>
+    <% user.userInfo.forEach( function(model) { %>
+    <tr>
+        <td>
+            <%= model.contractNo %>
+        </td>
+        <td>
+            <%= model.filmName %>
+        </td>
+        <td>
+            <%= model.cinemaName %>
+        </td>
+        <td>
+            <%= model.address %>
+        </td>
+        <td>
+            <%= model.roomNumber %>
+        </td>
+        <td>
+            <%= model.seatNumber %>
+        </td>
+        <td>
+            <%= model.date %>
+        </td>
+        <td>
+            <%= model.time %>
+        </td>
+        <td>
+            <%= model.payments %>
+        </td>
+        <td>
+            <button class="btn btn-danger" onclick="toRemove('<%= req.session.userid%>','<%= model.id%>')">Cancel Order</button>
+        </td>
+    </tr>
+    <% }); %>
+</table>
+<script>
+
+async function toRemove(userid,id) {
+
+    var r = confirm("Confirm Cancel?");
+    if (r == true) {
+
+        var response = await fetch("/user/"+userid+"/userInfo/remove/" +id , {
+
+            credentials: 'same-origin',
+
+        });
+
+        if (response.status == 200) {
+            var data = await response.json();
+            confirm(data);
+            location.reload();
+        } else {
+            confirm(response.statusText);
+        }
+
+    }
+};
+
+</script>
+</body>
+
+</html>

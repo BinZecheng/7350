@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>影院代码</th>
+        <th>影院名称</th>
+        <th>影院地址</th>
+    </tr>
+    <% models.forEach( function(model) { %>
+    <tr>
+        <td>
+            <%= model.cinemaCode %>
+        </td>
+        <td>
+            <%= model.cinemaName %>
+        </td>
+        <td>
+            <%= model.address %>
+        </td>
+        <td>
+            <button type="button" class="btn btn-primary" onclick="findRoom('<%= model.id%>')">Show Room</button>
+        </td>
+    </tr>
+    <% }); %>
+</table>
+
+<script>
+
+    function findRoom(id) {
+        window.location.href = "/cinemaBasic/"+id+"/cinemaInfo/";
+    };
+ 
+</script>
+
+</body>
+
+</html>

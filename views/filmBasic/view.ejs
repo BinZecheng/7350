@@ -1,0 +1,91 @@
+<!-- 电影详情页面，需查询出该电影关联的档期数据 -->
+<div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" style="color: #0069d9">
+                <%= filmBasic.filmName %>
+            </h5>
+            <div class="row">
+                <div class="col-4">
+                    <img class="card-img-top" src="<%= filmBasic.imgUrl %>" alt="Card image cap">
+                </div>
+                <div class="col-8">
+                    <div>
+                        <p>director: <%= filmBasic.director %></p>
+                    </div>
+                    <div>
+                        <p>country: <%= filmBasic.country %></p>
+                    </div>
+                    <div>
+                        <p>proCompany: <%= filmBasic.proCompany %></p>
+                    </div>
+                    <div>
+                        <p>cast: <%= filmBasic.cast %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% if(typeof(req.session)) {%>
+<% if(req.session.role=="visitor") {%>
+<div>
+<table class="table">
+        <tr>
+            <th>影院名称</th>
+            <th>影院地址</th>
+            <th>票价($)</th>
+            <th>放映日期</th>
+            <th>放映时间</th>
+            <th>操作</th>
+        </tr>
+        <% scInfo.filmInfo.forEach( function(model) { %>
+        <tr>
+            <td>
+                <%= model.cinemaName %>
+            </td>
+            <td>
+                <%= model.address %>
+            </td>
+            <td>
+                <%= model.ticketPrice %>
+            </td>
+            <td>
+                <%= model.date %>
+            </td>
+            <td>
+                <%= model.time %>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" onclick="order('<%= req.session.userid%>','<%= model.id%>')">Order</button>
+            </td>
+        </tr>
+        <% }); %>
+</table>
+</div>
+<% };%>
+<% };%>
+
+<script>
+async function order(userid,id) {
+
+    var r = confirm("Confirm order?");
+
+    if (r == true) {
+        
+        var response = await fetch("/record/"+userid+"/buyTicket/" +id , {
+            credentials: 'same-origin',
+        });
+
+        if (response.status == 200) {
+            var data = await response.json();
+            confirm(data);
+            //待修改，需跳转至用户订单页面
+        } else {
+            confirm(response.statusText);
+        }
+
+    }
+
+};
+</script>

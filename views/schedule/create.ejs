@@ -1,0 +1,73 @@
+<!--create.ejs-->
+<head>
+    <title>create</title>
+</head>
+<body>
+<form action="/schedule/create" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="card col-12  col-sm-6 " style="border: none">
+                <label>Cinema Code:</label>
+                <input type="text" class="form-control" id="cinemaCode" name="Schedule[cinemaCode]" required>
+                <button type="button" class="btn btn-primary" onclick="findCinemaInfo()">Search</button>
+                <label>Cinema Name:</label>
+                <input type="text" class="form-control" id="cinemaName" name="Schedule[cinemaName]" readonly>
+                <label>Cinema address:</label>
+                <input type="text" class="form-control" id="address" name="Schedule[address]" readonly>
+                <label>Film Code:</label>
+                <input type="text" class="form-control" id="filmCode" name="Schedule[filmCode]" required>
+                <button type="button" class="btn btn-primary" onclick="findFilmInfo()">Search</button>
+                <label>Film Name:</label>
+                <input type="text" class="form-control" id="filmName" name="Schedule[filmName]" readonly>
+                <label>Ticket Price:</label>
+                <input type="text" class="form-control" id="ticketPrice" name="Schedule[ticketPrice]" required>
+                <label>Date:</label>
+                <input class="datepicker form-control" id="date" name="Schedule[date]" required>
+                <label>Time:</label>
+                <input type="text" class="form-control" id="time" name="Schedule[time]" required>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    async function findCinemaInfo() {
+
+        var cinemaCode = document.getElementById("cinemaCode").value;
+        var cinemaName = document.getElementById("cinemaName");
+        var address = document.getElementById("address");
+
+        var response = await fetch("/schedule/findCinemaInfo/"+ cinemaCode, {
+            credentials: 'same-origin',
+        });
+
+        if (response.status == 200) {
+            var data = await response.json();
+            cinemaName.value = data.cinemaName;//影院名称赋值
+            address.value = data.address;//地址赋值
+        } else {
+            confirm(response.statusText);
+        }
+
+    };
+
+    async function findFilmInfo() {
+
+        var filmCode = document.getElementById("filmCode").value;
+        var filmName = document.getElementById("filmName");
+
+        var response = await fetch("/schedule/findFilmInfo/"+ filmCode, {
+            credentials: 'same-origin',
+        });
+
+        if (response.status == 200) {
+            var data = await response.json();
+            filmName.value = data.filmName;
+        } else {
+            confirm(response.statusText);
+        }
+
+    };
+
+</script>
+</body>
